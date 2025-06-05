@@ -1,0 +1,23 @@
+# 创建文件：.github/workflows/deploy.yml
+name: Deploy to GitHub Pages
+on:
+  push:
+    branches: [main] # 触发分支
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: npm install # 根据项目调整（如 pnpm/yarn）
+
+      - name: Build project
+        run: npm run build # 生成 dist 文件夹
+
+      - name: Deploy to GH Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist # 关键配置：指定部署目录
